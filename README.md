@@ -10,7 +10,7 @@ anordinaryusername@github
 OS: Arch Linux x86_64
 Shell: zsh 5.8
 Pronouns: He/Him
-Location: Artesia, CA
+Location: Indonesia
 Frameworks: React
 Languages: JavaScript, TypeScript,
            HTML, CSS
