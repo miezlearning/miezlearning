@@ -19,7 +19,7 @@ Learning: Node.js, Express, PostgreSQL,
 Hobbies: Gardening, Cooking, Gaming
 Commits: 968
 Stars: 14
-Discord: RandomPotato#1377
+Discord: Miez#8781
 ```
 <p align="left">
   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
