@@ -1,9 +1,9 @@
-![readmebox](https://github.com/miezlearning/miezlearning/assets/129609799/06cea14a-3de7-45aa-b7bc-11c80d94a4bb)```zsh
-> neofetch
+```zsh
+> Miez
 ```
 
 
-<img align="left" src="https://i.redd.it/h7dae4o0uk461.jpg" alt="Bakaguya made by レヴィノス (https://www.pixiv.net/en/artworks/80962527)" width="320" /> 
+<img align="left" src="https://i.pinimg.com/564x/6c/17/94/6c17941478a91814014465d8a5318cc6.jpg" alt="alamak" width="320" /> 
 
 ```csharp
 miezlearning@github
