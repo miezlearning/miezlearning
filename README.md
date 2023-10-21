@@ -1,5 +1,5 @@
 ![readmebox](https://github.com/miezlearning/miezlearning/assets/129609799/06cea14a-3de7-45aa-b7bc-11c80d94a4bb)```zsh
-> miezlipp
+> neofetch
 ```
 
 
