@@ -20,7 +20,7 @@ Learning: Node.js, Express, PostgreSQL,
 Hobbies: Cooking, Gaming, Football,Basketball, and More...
 Commits: 968
 Stars: 14
-Discord: Miez#8781
+Discord: miezlipp
 ```
 
 <p align="left">
