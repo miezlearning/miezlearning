@@ -1,38 +1,42 @@
-name: Update README
+name: Build README
 
 on:
-  schedule:
-    - cron: '0 0 * * *' 
   push:
     branches:
-      - main 
+      - master
+  schedule:
+    - cron: '0 7-23/2 * * *'
 
 jobs:
-  update-readme:
+  build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      # Checkout project source code
+      - uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
+      - name: Use NodeJs 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
 
-    - name: Install dependencies
-      run: npm install
+      - name: Cache npm dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-    - name: Run update script
-      env:
-        GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
-        GH_USERNAME: miezlearning
-      run: node index.js
+      - name: Install dependencies
+        run: npm install
 
-    - name: Commit and push changes
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add .
-        git commit -m 'Update README.md'
-        git push https://miezlearning:${{ secrets.GH_ACCESS_TOKEN }}@github.com/miezlearning/miezlearning.git HEAD:main
+      - name: Generate updated README file
+        run: npm start
+        env:
+          GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
 
+      - name: Commit and Push new README.md to the repository
+        uses: mikeal/publish-to-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
