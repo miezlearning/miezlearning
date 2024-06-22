@@ -2,25 +2,29 @@ name: Update README
 
 on:
   schedule:
-    - cron: '0 0 * * *' 
+    - cron: '0 0 * * *' # Menjadwalkan update setiap hari pada jam 00:00 UTC
   push:
     branches:
-      - main 
+      - main # Jalankan pada setiap push ke branch main
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: '14'
 
     - name: Install dependencies
       run: npm install
+
+    - name: Install Mustache
+      run: npm install mustache
 
     - name: Run update script
       env:
@@ -33,7 +37,7 @@ jobs:
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add README.md
-        git commit -m 'Update README.md'
+        git commit -m 'Update README.md' || echo "No changes to commit"
         git push
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

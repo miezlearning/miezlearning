@@ -12,6 +12,7 @@ const octokit = new Octokit({
   },
 });
 
+
 const githubUsername = process.env.GH_USERNAME;
 
 async function grabDataFromAllRepositories() {
