@@ -2,29 +2,25 @@ name: Update README
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Menjadwalkan update setiap hari pada jam 00:00 UTC
+    - cron: '0 0 * * *' 
   push:
     branches:
-      - main # Jalankan pada setiap push ke branch main
+      - main 
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v2
       with:
         node-version: '14'
 
     - name: Install dependencies
       run: npm install
-
-    - name: Install Mustache
-      run: npm install mustache
 
     - name: Run update script
       env:
@@ -36,8 +32,7 @@ jobs:
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add .
-        git commit -m 'Update README.md' || echo "No changes to commit"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        git add README.md
+        git commit -m 'Update README.md'
+        git push https://miezlearning:${{ secrets.GH_ACCESS_TOKEN }}@github.com/miezlearning/miezlearning.git HEAD:main
+
