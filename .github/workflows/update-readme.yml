@@ -39,5 +39,6 @@ jobs:
       - name: Commit and Push new README.md to the repository
         uses: mikeal/publish-to-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_NAME: 'main'  
+          GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+          BRANCH_NAME: 'main'
+
