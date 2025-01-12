@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # Adjust permissions as needed
     steps:
       # Checkout project source code
       - name: Checkout code
@@ -27,11 +29,11 @@ jobs:
       - name: Generate updated README file
         run: npm start
         env:
-          GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+          GH_ACCESS_TOKEN: ${{ github.token }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
 
       - name: Commit and Push new README.md to the repository
         uses: mikeal/publish-to-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
           BRANCH_NAME: 'main'
