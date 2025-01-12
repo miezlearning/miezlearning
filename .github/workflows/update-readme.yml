@@ -12,20 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout project source code
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Use NodeJs 14.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
         with:
-          node-version: "14.x"
-
-      - name: Cache npm dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          node-version: '16.x'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
@@ -41,4 +35,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
           BRANCH_NAME: 'main'
-
