@@ -1,3 +1,5 @@
+
+
 ```zsh
 > Miez
 ```
@@ -23,9 +25,12 @@ Stars: 14
 Discord: miezlipp
 ```
 
-<p align="left">
-  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-  <img alt="#474342" src="https://via.placeholder.com/15/474342/000000?text=+" width="25" height="20" /><img alt="#fbedf6" src="https://via.placeholder.com/15/fbedf6/000000?text=+" width="25" height="20" /><img alt="#c9594d" src="https://via.placeholder.com/15/c9594d/000000?text=+" width="25" height="20" /><img alt="#f8b9b2" src="https://via.placeholder.com/15/f8b9b2/000000?text=+" width="25" height="20" /><img alt="#ae9c9d" src="https://via.placeholder.com/15/ae9c9d/000000?text=+" width="25" height="20" />
+<p style="text-align: left; margin: 0; padding: 0;">
+  <!-- Spasi 5 karakter di awal (bisa pakai padding atau &nbsp; kalau mau, tapi lebih baik pakai margin) -->
+  <span style="display: inline-block; width: 25px; height: 20px; background-color: #474342; vertical-align: middle;"></span>
+  <span style="display: inline-block; width: 25px; height: 20px; background-color: #fbedf6; vertical-align: middle;"></span>
+  <span style="display: inline-block; width: 25px; height: 20px; background-color: #c9594d; vertical-align: middle;"></span>
+  <span style="display: inline-block; width: 25px; height: 20px; background-color: #f8b9b2; vertical-align: middle;"></span>
+  <span style="display: inline-block; width: 25px; height: 20px; background-color: #ae9c9d; vertical-align: middle;"></span>
 </p>
 
-[![ASCII IF Lab](https://ascii.web.id/api/widget/2209106127.svg?type=discord)](https://ascii.web.id/profile/2209106127)
