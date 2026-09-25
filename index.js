@@ -1,10 +1,14 @@
+require("dotenv").config();
 const Mustache = require("mustache");
 const fs = require("fs");
 const { Octokit } = require("@octokit/rest");
-// rawr
+
+const githubUsername = process.env.GH_USERNAME || "miezlearning";
+const authToken = process.env.GH_ACCESS_TOKEN || process.env.GITHUB_TOKEN || undefined;
+
 const octokit = new Octokit({
-  auth: process.env.GH_ACCESS_TOKEN,
-  userAgent: "readme v1.0.0",
+  auth: authToken,
+  userAgent: "readme-updater/2.0.0",
   baseUrl: "https://api.github.com",
   log: {
     warn: console.warn,
@@ -12,99 +16,103 @@ const octokit = new Octokit({
   },
 });
 
+async function fetchRepositories(username) {
+  let repos = [];
+  let page = 1;
 
-const githubUsername = process.env.GH_USERNAME;
+  while (true) {
+    try {
+      const response = await octokit.rest.repos.listForUser({
+        username,
+        per_page: 100,
+        page,
+      });
 
-async function grabDataFromAllRepositories() {
-  const options = {
-    per_page: 100,
-  };
-
-  const request = await octokit.rest.repos.listForAuthenticatedUser(options);
-  return request.data;
-}
-
-function calculateTotalStars(data) {
-  const stars = data.map((repo) => repo.stargazers_count);
-  const totalStars = stars.reduce((sum, curr) => sum + curr, 0);
-  return totalStars;
-}
-
-async function calculateTotalCommits(data, cutoffDate) {
-  const contributorsRequests = [];
-  const githubUsername = process.env.GH_USERNAME;
-
-  data.forEach((repo) => {
-    const options = {
-      owner: githubUsername,
-      repo: repo.name,
-    };
-
-    const lastRepoUpdate = new Date(repo.updated_at);
-
-    if (!cutoffDate || lastRepoUpdate > cutoffDate) {
-      const repoStats = octokit.rest.repos.getContributorsStats(options);
-      contributorsRequests.push(repoStats);
+      if (!response.data || response.data.length === 0) break;
+      repos = repos.concat(response.data);
+      if (response.data.length < 100) break;
+      page++;
+    } catch (err) {
+      console.error(`Error fetching repos page ${page}:`, err.message);
+      break;
     }
-  });
+  }
 
-  const totalCommits = await getTotalCommits(contributorsRequests, githubUsername, cutoffDate);
-  return totalCommits;
+  return repos;
 }
 
-async function getTotalCommits(requests, contributor, cutoffDate) {
-  const repos = await Promise.all(requests);
+function calculateStars(repos) {
+  return repos.reduce((sum, repo) => sum + (repo.stargazers_count || 0), 0);
+}
+
+async function fetchCommitCounts(username) {
   let totalCommits = 0;
+  let totalCommitsInPastYear = 0;
 
-  repos.forEach((repo) => {
-    const contributorName = (item) => item.author.login === contributor;
-    const indexOfContributor = repo.data.findIndex(contributorName);
+  // 1. Fetch total commits across all public repositories on GitHub
+  try {
+    const totalResult = await octokit.rest.search.commits({
+      q: `author:${username}`,
+    });
+    totalCommits = totalResult.data.total_count;
+  } catch (err) {
+    console.warn("Could not fetch total commits via search API:", err.message);
+  }
 
-    if (indexOfContributor !== -1) {
-      const contributorStats = repo.data[indexOfContributor];
-      totalCommits += !cutoffDate
-        ? computeCommitsFromStart(contributorStats)
-        : computeCommitsBeforeCutoff(contributorStats, cutoffDate);
-    }
-  });
+  // 2. Fetch past year commits
+  try {
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+    const cutoffDateStr = oneYearAgo.toISOString().split("T")[0];
 
-  return totalCommits;
+    const pastYearResult = await octokit.rest.search.commits({
+      q: `author:${username} committer-date:>${cutoffDateStr}`,
+    });
+    totalCommitsInPastYear = pastYearResult.data.total_count;
+  } catch (err) {
+    console.warn("Could not fetch past year commits via search API:", err.message);
+  }
+
+  return { totalCommits, totalCommitsInPastYear };
 }
 
-function computeCommitsFromStart(contributorData) {
-  return contributorData.total;
-}
-
-function computeCommitsBeforeCutoff(contributorData, cutoffDate) {
-  const olderThanCutoffDate = (week) => {
-    const MILLISECONDS_IN_A_SECOND = 1000;
-    const milliseconds = week.w * MILLISECONDS_IN_A_SECOND;
-    const startOfWeek = new Date(milliseconds);
-    return startOfWeek > cutoffDate;
-  };
-
-  const newestWeeks = contributorData.weeks.filter(olderThanCutoffDate);
-  const total = newestWeeks.reduce((sum, week) => sum + week.c, 0);
-  return total;
-}
-
-async function updateReadme(userData) {
+async function updateReadme(data) {
   const TEMPLATE_PATH = "./main.mustache";
-  const data = fs.readFileSync(TEMPLATE_PATH, 'utf8');
-  const output = Mustache.render(data.toString(), userData);
+  const template = fs.readFileSync(TEMPLATE_PATH, "utf8");
+  const output = Mustache.render(template, data);
   fs.writeFileSync("README.md", output);
+  console.log("README.md successfully updated!");
 }
 
 async function main() {
-  const repoData = await grabDataFromAllRepositories();
-  const totalStars = calculateTotalStars(repoData);
+  console.log(`Gathering data for GitHub user: ${githubUsername}...`);
 
-  const lastYear = new Date();
-  lastYear.setFullYear(lastYear.getFullYear() - 1);
-  const totalCommitsInPastYear = await calculateTotalCommits(repoData, lastYear);
+  const repos = await fetchRepositories(githubUsername);
+  const totalStars = calculateStars(repos);
+  const totalRepos = repos.length;
 
-  const colors = ["474342", "fbedf6", "c9594d", "f8b9b2", "ae9c9d"];
-  await updateReadme({ totalStars, totalCommitsInPastYear, colors });
+  const { totalCommits, totalCommitsInPastYear } = await fetchCommitCounts(githubUsername);
+
+  console.log("Stats found:", {
+    username: githubUsername,
+    totalRepos,
+    totalStars,
+    totalCommits,
+    totalCommitsInPastYear,
+  });
+
+  const templateData = {
+    githubUsername,
+    totalStars: totalStars.toLocaleString("en-US"),
+    totalRepos: totalRepos.toLocaleString("en-US"),
+    totalCommits: totalCommits.toLocaleString("en-US"),
+    totalCommitsInPastYear: totalCommitsInPastYear.toLocaleString("en-US"),
+  };
+
+  await updateReadme(templateData);
 }
 
-main();
+main().catch((err) => {
+  console.error("Fatal error running updater:", err);
+  process.exit(1);
+});

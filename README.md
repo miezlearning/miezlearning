@@ -1,9 +1,6 @@
-
-
 ```zsh
 > Miez
 ```
-
 
 <img align="left" src="https://i.pinimg.com/564x/6c/17/94/6c17941478a91814014465d8a5318cc6.jpg" alt="alamak" width="320" /> 
 
@@ -19,18 +16,22 @@ Languages: JavaScript, TypeScript,
            HTML, CSS, Python, Java, C++
 Learning: Node.js, Express, PostgreSQL,
           Three.js, C++
-Hobbies: Cooking, Gaming, Football,Basketball, and More...
-Commits: 968
-Stars: 14
+Hobbies: Cooking, Gaming, Football, Basketball
+Commits: 1,515 (783 past year)
+Stars: 87 | Repos: 51
 Discord: miezlipp
 ```
 
-<p style="text-align: left; margin: 0; padding: 0;">
-  <!-- Spasi 5 karakter di awal (bisa pakai padding atau &nbsp; kalau mau, tapi lebih baik pakai margin) -->
-  <span style="display: inline-block; width: 25px; height: 20px; background-color: #474342; vertical-align: middle;"></span>
-  <span style="display: inline-block; width: 25px; height: 20px; background-color: #fbedf6; vertical-align: middle;"></span>
-  <span style="display: inline-block; width: 25px; height: 20px; background-color: #c9594d; vertical-align: middle;"></span>
-  <span style="display: inline-block; width: 25px; height: 20px; background-color: #f8b9b2; vertical-align: middle;"></span>
-  <span style="display: inline-block; width: 25px; height: 20px; background-color: #ae9c9d; vertical-align: middle;"></span>
+<p align="left">
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  <img src="./palette.svg" height="20" alt="Terminal Palette" />
 </p>
 
+<br clear="both"/>
+
+<div align="center">
+  <br />
+  <a href="https://github.com/miezlearning">
+    <img src="https://streak-stats.demolab.com/?user=miezlearning&background=18181b&border=27272a&stroke=c9594d&ring=c9594d&fire=c9594d&currStreakNum=fbedf6&sideNums=fbedf6&currStreakLabel=f8b9b2&sideLabels=f8b9b2&dates=ae9c9d" alt="GitHub Streak Stats" />
+  </a>
+</div>

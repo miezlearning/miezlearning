@@ -1,39 +1,49 @@
-name: Build README
+name: Build and Update README
 
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'README.md'
   schedule:
-    - cron: '0 7-23/2 * * *'
+    # Run every 3 hours automatically
+    - cron: '0 */3 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read # Adjust permissions as needed
-    steps:
-      # Checkout project source code
-      - name: Checkout code
-        uses: actions/checkout@v3
+      contents: write
 
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
         with:
-          node-version: '16.x'
+          node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci || npm install
 
       - name: Generate updated README file
         run: npm start
         env:
-          GH_ACCESS_TOKEN: ${{ github.token }}
-          GH_USERNAME: ${{ secrets.GH_USERNAME }}
+          GH_ACCESS_TOKEN: ${{ secrets.GH_PAT || github.token }}
+          GH_USERNAME: ${{ github.repository_owner }}
 
-      - name: Commit and Push new README.md to the repository
-        uses: mikeal/publish-to-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          BRANCH_NAME: 'main'
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add README.md
+          if git diff --staged --quiet; then
+            echo "README.md is already up to date. No changes to commit."
+          else
+            git commit -m "Auto-update profile README stats [skip ci]"
+            git push
+          fi
