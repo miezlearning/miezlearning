@@ -17,7 +17,7 @@ Languages: JavaScript, TypeScript,
 Learning: Node.js, Express, PostgreSQL,
           Three.js, C++
 Hobbies: Cooking, Gaming, Football, Basketball
-Commits: 1,515 (783 past year)
+Commits: 1,516 (784 past year)
 Stars: 87 | Repos: 51
 Discord: miezlipp
 ```
@@ -32,6 +32,6 @@ Discord: miezlipp
 <div align="center">
   <br />
   <a href="https://github.com/miezlearning">
-    <img src="https://streak-stats.demolab.com/?user=miezlearning&background=18181b&border=27272a&stroke=c9594d&ring=c9594d&fire=c9594d&currStreakNum=fbedf6&sideNums=fbedf6&currStreakLabel=f8b9b2&sideLabels=f8b9b2&dates=ae9c9d" alt="GitHub Streak Stats" />
+    <img src="https://streak-stats.demolab.com/?user=miezlearning&background=181a1b&border=2c3435&stroke=8a3d36&ring=8a3d36&fire=8a3d36&currStreakNum=e4e1db&sideNums=e4e1db&currStreakLabel=b8a798&sideLabels=b8a798&dates=6b7c7a" alt="GitHub Streak Stats" />
   </a>
 </div>
