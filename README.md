@@ -18,7 +18,7 @@ Learning: Node.js, Express, PostgreSQL,
           Three.js, C++
 Hobbies: Cooking, Gaming, Football, Basketball
 Commits: 1,517 (783 past year)
-Stars: 87 | Repos: 51
+Stars: 87 | Repos: 52
 Discord: miezlipp
 ```
 
