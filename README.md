@@ -17,8 +17,8 @@ Languages: JavaScript, TypeScript,
 Learning: Node.js, Express, PostgreSQL,
           Three.js, C++
 Hobbies: Cooking, Gaming, Football, Basketball
-Commits: 2,179 (1,359 past year)
-Stars: 87 | Repos: 57
+Commits: 2,136 (1,316 past year)
+Stars: 87 | Repos: 56
 Discord: miezlipp
 ```
 
